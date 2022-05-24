@@ -1,0 +1,245 @@
+swagger: '2.0'
+info:
+  description: This is the OpenAPI specification for the Mock Splunk App Store Backend API.
+  version: 1.0.0
+  title: Mock Splunk App Store Backend API
+host: 625d01094c36c753576d2522.mockapi.io
+basePath: /api/v1
+tags:
+  - name: applications
+    description: Operations about applications
+  - name: collections
+    description: Operations about applications collections
+  - name: reviews
+    description: Operations about user reviews
+  - name: users
+    description: Operations about users
+schemes:
+  - https
+paths:
+  /applications:
+    get:
+      tags:
+        - applications
+      summary: Gets all applications
+      operationId: GetApplications
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Application'
+  /applications/{applicationId}:
+    get:
+      tags:
+        - applications
+      summary: Finds an application by ID
+      operationId: GetApplicationById
+      produces:
+        - application/json
+      parameters:
+        - name: applicationId
+          in: path
+          description: ID of application to return
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Application'
+  /collections:
+    get:
+      tags:
+        - collections
+      summary: Finds all application collections
+      operationId: GetCollections
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Collection'
+  /collections/{collectionId}:
+    get:
+      tags:
+        - collections
+      summary: Finds an application collection by ID
+      operationId: GetCollectionById
+      produces:
+        - application/json
+      parameters:
+        - name: collectionId
+          in: path
+          description: ID of collection to return
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Collection'
+  /reviews:
+    get:
+      tags:
+        - reviews
+      summary: Finds all application reviews
+      operationId: GetReviews
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Review'
+  /reviews/{reviewId}:
+    get:
+      tags:
+        - reviews
+      summary: Finds an application review by ID
+      operationId: GetReviewById
+      produces:
+        - application/json
+      parameters:
+        - name: reviewId
+          in: path
+          description: ID of review to return
+          required: true
+          type: string
+      responses:
+        default:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Review'
+  /users:
+    get:
+      tags:
+        - users
+      summary: Finds all users
+      operationId: GetUsers
+      produces:
+        - application/json
+      responses:
+        default:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+  /users/{userId}:
+    get:
+      tags:
+        - users
+      summary: Finds a user by ID
+      operationId: GetUserById
+      produces:
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+definitions:
+  Collection:
+    type: object
+    properties:
+      id:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      name:
+        type: string
+      description:
+        type: string
+      avatar:
+        type: string
+      applicationIds:
+        type: array
+        items:
+          type: string
+  Review:
+    type: object
+    properties:
+      id:
+        type: string
+      authorId:
+        type: string
+      applicationId:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      description:
+        type: string
+      score:
+        type: number
+        format: float
+  User:
+    type: object
+    required:
+      - id
+      - firstName
+      - lastName
+      - reviewIds
+      - applicationIds
+    properties:
+      id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      reviewIds:
+        type: array
+        items:
+          type: string
+      applicationIds:
+        type: array
+        items:
+          type: string
+  Application:
+    type: object
+    required:
+      - id
+      - createdAt
+      - name
+      - authorId
+      - avatar
+      - description
+      - reviewIds
+    properties:
+      id:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      name:
+        type: string
+      authorId:
+        type: string
+      avatar:
+        type: string
+      description:
+        type: string
+      reviewIds:
+        type: array
+        items:
+          type: string
+externalDocs:
+  description: Find out more about Splunk
+  url: https://www.splunk.com/en_us/about-splunk.html
